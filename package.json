@@ -1,0 +1,67 @@
+{
+  "name": "angular-project",
+  "version": "1.0.0",
+  "description": "Angular AOT (Ahead Of Time) offline compilation example with Webpack",
+  "main": "build/modules/main.module.js",
+  "scripts": {
+    "cleanup": "rimraf src/app/**/*.ngfactory.ts src/app/**/*.ngstyle.ts src/app/**/*.ngsummary.json build dist",
+    "explorer": "source-map-explorer ./dist/main.bundle.js ./dist/main.bundle.js.map",
+    "ngc": "ngc",
+    "serve": "http-server ./dist -a 0.0.0.0 -p 9000",
+    "start": "npm run cleanup && npm run ngc && concurrently -r \"webpack-dev-server --config webpack.aot.config.js\" \"node ./bin/ngc-watch.js\"",
+    "start-prod": "npm run ngc && npm run build && npm run serve",
+    "build": "npm run cleanup && npm run ngc && webpack --config webpack.aot.config.js -p",
+    "deploy": "gh-pages -d dist",
+    "aot": "npm run cleanup && npm run ngc && concurrently -r \"webpack-dev-server --config webpack.aot.config.js\" \"node ./bin/ngc-watch.js\"",
+    "jit": "npm run cleanup && webpack-dev-server --config webpack.jit.config.js"
+  },
+  "keywords": [
+    "angular2",
+    "aot",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blacksonic/angular2-aot-webpack.git"
+  },
+  "author": {
+    "name": "blacksonic",
+    "email": "soos.gabor86@gmail.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@angular/animations": "4.4.4",
+    "@angular/common": "4.4.4",
+    "@angular/compiler": "4.4.4",
+    "@angular/core": "4.4.4",
+    "@angular/platform-browser": "4.4.4",
+    "@angular/platform-browser-dynamic": "4.4.4",
+    "@angular/router": "4.4.4",
+    "core-js": "2.5.1",
+    "rxjs": "5.4.3",
+    "zone.js": "0.8.18"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "4.4.4",
+    "@angular/platform-server": "4.4.4",
+    "@types/core-js": "0.9.43",
+    "@types/node": "8.0.33",
+    "angular2-template-loader": "0.6.2",
+    "awesome-typescript-loader": "3.2.3",
+    "chokidar": "1.7.0",
+    "concurrently": "3.5.0",
+    "copy-webpack-plugin": "4.1.1",
+    "css-loader": "0.28.7",
+    "extract-text-webpack-plugin": "3.0.1",
+    "gh-pages": "1.0.0",
+    "http-server": "0.10.0",
+    "raw-loader": "0.5.1",
+    "rimraf": "2.6.2",
+    "source-map-explorer": "1.5.0",
+    "style-loader": "0.19.0",
+    "to-string-loader": "1.1.5",
+    "typescript": "2.5.3",
+    "webpack": "3.6.0",
+    "webpack-dev-server": "2.9.1"
+  }
+}
