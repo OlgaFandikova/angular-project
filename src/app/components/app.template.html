@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 column" [dragula]="'products'" [dragulaModel]="products">
+            <div *ngFor="let product of products" class="card">
+                <img class="card-img-top" src="">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted">{{ product.description }}</p>
+                        </div>
+                        <div class="col-md-5">
+                            <div>{{ product.amount }}</div>
+                            <div>{{ product.amount }} x {{ product.price }} Р</div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div>*Остаток на складе: {{ product.total }}шт.</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 column" [dragula]="'products'" [dragulaModel]="bag">
+            <div *ngFor="let product of bag" class="card">
+                <img class="card-img-top" src="">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted">{{ product.description }}</p>
+                        </div>
+                        <div class="col-md-5">
+                            <div>{{ product.amount }}</div>
+                            <div>{{ product.price }} Р</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

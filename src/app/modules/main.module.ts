@@ -1,13 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HelloWorldComponent } from '../components/hello-world.component';
+import { DragulaModule } from 'ng2-dragula';
+import { AppComponent } from '../components/app.component';
 
-export { HelloWorldComponent };
+export { AppComponent };
 
 @NgModule({
-  bootstrap: [HelloWorldComponent],
-  declarations: [HelloWorldComponent],
-  imports: [BrowserModule],
+  bootstrap: [AppComponent],
+  declarations: [AppComponent],
+  imports: [BrowserModule, DragulaModule],
   providers: []
 })
 export class MainModule {}
