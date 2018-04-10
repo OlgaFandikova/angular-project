@@ -1,0 +1,19 @@
+.card {
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+  background-color: #e2e2e2;
+}
+
+.card-header {
+  background-color: #007dc0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
+  border-radius: 0 !important;
+}
+
+.card-body {
+  overflow: auto;
+  padding: 7px 20px;
+}

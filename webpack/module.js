@@ -25,6 +25,28 @@ module.exports = {
         fallback: 'style-loader',
         use: 'css-loader'
       })
+    },
+    {
+      test: /\.scss$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [{
+          loader: 'css-loader'
+        }, {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true,
+            plugins: function () {
+              return [
+                require('postcss-short'),
+                require('postcss-cssnext')
+              ];
+            }
+          }
+        }, {
+          loader: 'sass-loader'
+        }]
+      })
     }
   ]
 };
