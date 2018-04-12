@@ -1,56 +1,42 @@
-<main>
-    <header class="header">
-        <img class="logo" src="assets/img/logo.jpg" alt="">
-    </header>
-    <div class="container">
-        <p class="text">Для добавления товара,<br>удерживайте его мышкой и перенесите в корзину</p>
-        <img class="move" src="assets/img/move.png" alt="">
-        <div class="content">
-            <div class="column">
-                <panel [header]="'Товары'">
-                    <div id="products" class="panel-body" [dragula]="'catalog'" [dragulaModel]="products">
-                        <div class="card" *ngFor="let product of products" id="{{ product.id }}">
-                            <img class="card-img-top" src="{{ product.img }}">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <h5 class="card-title">{{ product.name }}</h5>
-                                        <p class="card-text text-muted">{{ product.description }}</p>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div>{{ product.amount }}</div>
-                                        <div>{{ product.amount }} x {{ product.price }} Р</div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div>*Остаток на складе: {{ product.total }}шт.</div>
-                            </div>
-                        </div>
-                    </div>
-                </panel>
-            </div>
-            <div class="column">
-                <panel [header]="'Корзина'">
-                    <div id="bag" class="panel-body" [dragula]="'catalog'" [dragulaModel]="bag">
-                        <div class="card" *ngFor="let product of bag" id="{{ product.id }}">
-                            <img class="card-img-top" src="{{ product.img }}">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <h5 class="card-title">{{ product.name }}</h5>
-                                        <p class="card-text text-muted">{{ product.description }}</p>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div>{{ product.amount }}</div>
-                                        <div>{{ product.price }} Р</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </panel>
-            </div>
+<layout>
+
+    <p class="text">Для добавления товара,<br>удерживайте его мышкой и перенесите в корзину</p>
+    <img class="move" src="assets/img/move.png" alt="">
+
+    <div class="content">
+
+        <div class="column">
+            <panel [header]="'Товары'">
+                <div id="products" class="panel-body" [dragula]="'catalog'" [dragulaModel]="products">
+                    <card
+                        *ngFor="let product of products"
+                        [attr.data-id]="product.id"
+                        [product]="product"
+                        [isShowTotal]="true"
+                        (changeAmount)="changeAmount($event)"
+                    ></card>
+                </div>
+            </panel>
         </div>
+
+        <div class="column">
+            <panel [header]="'Корзина'">
+                <div id="basket" class="panel-body basket" [dragula]="'catalog'" [dragulaModel]="basket">
+                    <card
+                        *ngFor="let product of basket"
+                        [attr.data-id]="product.id"
+                        [product]="product"
+                    ></card>
+                    <div *ngIf="!basket.length" class="empty-basket">
+                        Корзина пуста
+                    </div>
+                </div>
+                <div *ngIf="total" class="panel-footer">
+                    Итого: <span class="text-success"> {{ total }} Р</span>
+                </div>
+            </panel>
+        </div>
+
     </div>
-    <footer class="footer"></footer>
-</main>
+
+</layout>

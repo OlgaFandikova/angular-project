@@ -1,0 +1,28 @@
+.card {
+  cursor: move;
+  margin-bottom: 10px;
+  border-radius: 0;
+  border: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+}
+
+.card-img-top {
+  border: 0;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.counter {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid gray;
+}
+
+.btn {
+  size: 20px;
+}

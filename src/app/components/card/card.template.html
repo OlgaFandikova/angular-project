@@ -1,0 +1,20 @@
+<div class="card">
+    <img class="card-img-top" src="{{ product.img }}">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text text-muted">{{ product.description }}</p>
+            </div>
+            <div class="col-md-4">
+                <div class="counter">
+                    <button class="btn bth-default" (click)="change(product.id, true)">+</button>
+                    {{ product.amount }}
+                    <button class="btn bth-default" (click)="change(product.id, false)">-</button>
+                </div>
+                <div class="text-success price">{{ product.amount }} x {{ product.price }} Р</div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer" *ngIf="isShowTotal">*Остаток на складе: {{ product.total }}шт.</div>
+</div>
