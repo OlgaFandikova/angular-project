@@ -13,7 +13,7 @@
                         [attr.data-id]="product.id"
                         [product]="product"
                         [isShowTotal]="true"
-                        (changeAmount)="changeAmount($event)"
+                        (changeAmount)="changeProductAmount($event)"
                     ></card>
                 </div>
             </panel>
@@ -26,6 +26,7 @@
                         *ngFor="let product of basket"
                         [attr.data-id]="product.id"
                         [product]="product"
+                        (changeAmount)="changeBasketProductAmount($event)"
                     ></card>
                     <div *ngIf="!basket.length" class="empty-basket">
                         Корзина пуста

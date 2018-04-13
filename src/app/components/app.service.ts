@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { findIndex } from 'lodash';
-import {Product} from './app.interface'
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { find, findIndex, reject } from 'lodash';
+import { Product } from './app.interface';
 
 @Injectable()
 export class AppService {
@@ -23,19 +25,69 @@ export class AppService {
         price: 210,
     }] as Product[];
 
-    public basket = [] as Product[];
+    public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(this.products);
+    public basket$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([] as Product[]);
+    public total$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-    getCatalog(): Product[] {
-        return this.products
+    getCatalog(): Observable<Product[]> {
+        return this.products$.asObservable();
     }
 
-    getBasket(): Product[] {
-        return this.basket
+    getBasket(): Observable<Product[]> {
+        return this.basket$.asObservable();
     }
 
-    changeAmount(id: number, increase: boolean): void {
-        this.products = this.calcProductsAmount(id, increase, this.products);
-        this.basket = this.calcProductsAmount(id, increase, this.basket);
+    getTotal(): Observable<number> {
+        return this.total$.asObservable();
+    }
+
+    updateState(productId: number, model: string): void {
+        let products = [...this.products$.value];
+        let basket = [...this.basket$.value];
+
+        if (model == 'products') {
+            const index = findIndex(basket, {id: productId});
+            const product = find(products, {id: productId});
+
+            if (basket[index]) {
+                basket[index].amount += product.amount;
+
+                if (basket[index].amount > product.total) basket[index].amount = product.total;
+            } else {
+                basket.push(product);
+            }
+        } else {
+            basket = reject(basket, {id: productId});
+        }
+
+        this.products$.next(products);
+        this.basket$.next(basket);
+
+        this.calcTotal(basket);
+    }
+
+    calcTotal(basket: Product[]): void {
+        let total: number = 0;
+
+        basket.map((product: Product) => {
+            total += product.amount * product.price
+        });
+
+        this.total$.next(total);
+    }
+
+    changeProductAmount(id: number, increase: boolean): void {
+        const products = this.calcProductsAmount(id, increase, this.products$.value);
+
+        this.products$.next(products);
+    }
+
+    changeBasketProductAmount(id: number, increase: boolean): void {
+        const basket = this.calcProductsAmount(id, increase, this.basket$.value);
+
+        this.basket$.next(basket);
+
+        this.calcTotal(basket);
     }
 
     calcProductsAmount(id: number, increase: boolean, products: Product[]): Product[] {

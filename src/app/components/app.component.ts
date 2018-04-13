@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
-import { find, findIndex } from 'lodash';
 import { Product } from './app.interface';
 import { AppService } from './app.service';
 
@@ -18,7 +17,7 @@ export class AppComponent {
 
     public constructor(private appService: AppService, private dragulaService: DragulaService) {
         dragulaService.drop.subscribe((value) => {
-            this.updateState(+value[1].getAttribute('data-id'), value[2] ? value[2].id : '');
+            this.updateState(+value[1].getAttribute('data-id'), value[3].id);
         });
         dragulaService.setOptions('catalog', {
             copy: true
@@ -26,42 +25,39 @@ export class AppComponent {
     }
 
     ngOnInit(): void {
-        this.products = this.appService.getCatalog();
-        this.basket = this.appService.getBasket();
+        this.getCatalog();
+        this.getBasket();
+        this.getTotal();
+    }
+
+    getCatalog(): void {
+        this.appService.getCatalog().subscribe((products: Product[]) => {
+            this.products = products;
+        });
+    }
+
+    getBasket(): void {
+        this.appService.getBasket().subscribe((basket: Product[]) => {
+            this.basket = basket;
+        });
+    }
+
+    getTotal(): void {
+        this.appService.getTotal().subscribe((total: number) => {
+            this.total = total;
+        });
     }
 
     updateState(productId: number, model: string) {
-        if (model == 'basket') {
-            let basket = [...this.basket];
-            const index = findIndex(this.basket, {id: productId});
-            const product = find(this.products, {id: productId});
-
-            if (basket[index]) {
-                basket[index].amount += product.amount;
-
-                if (basket[index].amount > product.total) basket[index].amount = product.total;
-
-                this.basket = [...basket];
-            }
-
-            setTimeout(() => this.calcTotal(), 0);
-        } else {
-            this.products = [...this.products];
-        }
+        this.appService.updateState(productId, model);
     }
 
-    changeAmount(data: {id: number, increase: boolean}): void {
-        this.appService.changeAmount(data.id, data.increase);
+    changeProductAmount(data: {id: number, increase: boolean}): void {
+        this.appService.changeProductAmount(data.id, data.increase);
     }
 
-    calcTotal(): void {
-        let total: number = 0;
-
-        this.basket.map((product: Product) => {
-            total += product.amount * product.price
-        });
-
-        this.total = total
+    changeBasketProductAmount(data: {id: number, increase: boolean}): void {
+        this.appService.changeBasketProductAmount(data.id, data.increase);
     }
 
 }
