@@ -1,6 +1,10 @@
 <div class="card">
-    <div class="card-header">{{ header }}</div>
+    <div class="card-header bg-primary text-white">{{ header }}</div>
     <div class="card-body">
         <ng-content></ng-content>
+    </div>
+    <div *ngIf="total" class="card-footer">
+        <img class="icon-basket-blue" src="assets/img/basket-blue.png" alt="">
+        Итого: <span class="text-success total"> {{ total }} &#x20bd;</span>
     </div>
 </div>

@@ -60,4 +60,8 @@ export class AppComponent {
         this.appService.changeBasketProductAmount(data.id, data.increase);
     }
 
+    deleteProduct(data: {id: number}): void {
+        this.appService.deleteProduct(data.id);
+    }
+
 }

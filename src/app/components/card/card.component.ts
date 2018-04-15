@@ -14,11 +14,21 @@ export class CardComponent {
     @Input()
     public isShowTotal: boolean;
 
+    @Input()
+    public isShowDeleteButton: boolean;
+
     @Output()
     changeAmount = new EventEmitter<{id: number, increase: boolean}>();
 
-    change(id: number, increase: boolean) {
+    @Output()
+    deleteProduct = new EventEmitter<{id: number}>();
+
+    changeCardAmount(id: number, increase: boolean) {
         this.changeAmount.emit({id, increase});
+    }
+
+    deleteCard(id: number) {
+        this.deleteProduct.emit({id});
     }
 
 }

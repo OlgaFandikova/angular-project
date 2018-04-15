@@ -1,20 +1,31 @@
 <div class="card">
+
+    <button *ngIf="isShowDeleteButton" class="button-delete" (click)="deleteCard(product.id)">
+        <img src="assets/img/close.png" class="d-block" alt="">
+    </button>
+
     <img class="card-img-top" src="{{ product.img }}">
+
     <div class="card-body">
         <div class="row">
-            <div class="col-md-8">
+            <div class="column flex-grow-1">
                 <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text text-muted">{{ product.description }}</p>
+                <p class="card-text">{{ product.description }}</p>
             </div>
-            <div class="col-md-4">
+            <div class="column flex-grow-0">
                 <div class="counter">
-                    <button class="btn bth-default" (click)="change(product.id, true)">+</button>
-                    {{ product.amount }}
-                    <button class="btn bth-default" (click)="change(product.id, false)">-</button>
+                    <button class="btn border-right-0 border-primary" (click)="changeCardAmount(product.id, false)">&ndash;</button>
+                    <div class="number">{{ product.amount }}</div>
+                    <button class="btn border-left-0 border-primary" (click)="changeCardAmount(product.id, true)">+</button>
                 </div>
-                <div class="text-success price">{{ product.amount }} x {{ product.price }} Р</div>
+                <div class="text-success text-nowrap text-center price">
+                    <span *ngIf="isShowTotal">{{ product.amount }} x </span>
+                    {{ product.price }} &#x20bd;
+                </div>
             </div>
         </div>
     </div>
-    <div class="card-footer" *ngIf="isShowTotal">*Остаток на складе: {{ product.total }}шт.</div>
+
+    <div class="card-footer bg-white text-muted" *ngIf="isShowTotal">*Остаток на складе: {{ product.total }}шт.</div>
+
 </div>

@@ -1,13 +1,13 @@
 <layout>
 
-    <p class="text">Для добавления товара,<br>удерживайте его мышкой и перенесите в корзину</p>
+    <p class="text-primary text-center">Для добавления товара,<br>удерживайте его мышкой и перенесите в корзину</p>
     <img class="move" src="assets/img/move.png" alt="">
 
     <div class="content">
 
         <div class="column">
             <panel [header]="'Товары'">
-                <div id="products" class="panel-body" [dragula]="'catalog'" [dragulaModel]="products">
+                <div id="products" class="flex-grow-1" [dragula]="'catalog'" [dragulaModel]="products">
                     <card
                         *ngFor="let product of products"
                         [attr.data-id]="product.id"
@@ -20,20 +20,20 @@
         </div>
 
         <div class="column">
-            <panel [header]="'Корзина'">
-                <div id="basket" class="panel-body basket" [dragula]="'catalog'" [dragulaModel]="basket">
+            <panel [header]="'Корзина'" [total]="total">
+                <div id="basket" class="flex-grow-1" [dragula]="'catalog'" [dragulaModel]="basket">
                     <card
                         *ngFor="let product of basket"
                         [attr.data-id]="product.id"
                         [product]="product"
+                        [isShowDeleteButton]="true"
                         (changeAmount)="changeBasketProductAmount($event)"
+                        (deleteProduct)="deleteProduct($event)"
                     ></card>
                     <div *ngIf="!basket.length" class="empty-basket">
+                        <img class="icon-basket" src="assets/img/basket.png" alt="">
                         Корзина пуста
                     </div>
-                </div>
-                <div *ngIf="total" class="panel-footer">
-                    Итого: <span class="text-success"> {{ total }} Р</span>
                 </div>
             </panel>
         </div>

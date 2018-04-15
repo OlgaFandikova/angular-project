@@ -1,28 +1,94 @@
 .card {
   cursor: move;
-  margin-bottom: 10px;
-  border-radius: 0;
-  border: 0;
+  margin-bottom: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
 }
 
+.button-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  line-height: 1;
+}
+
 .card-img-top {
-  border: 0;
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  padding: 20px 27px 15px;
+}
+
+.card-text {
+  font-size: 15px;
+  color: #5c5c5c;
+}
+
+.card-footer {
+  font-size: 13px;
+  padding: 12px 27px;
+  border-top: 2px solid #e5e5e5;
+}
+
+.row {
+  margin: 0 -12px;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 1000px) {
+  .row {
+    flex-wrap: wrap;
+  }
+}
+
+.column {
+  margin: 0 12px;
 }
 
 .price {
-  font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
+  font-weight: 500;
 }
 
 .counter {
+  width: 100px;
   cursor: default;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid gray;
+  margin: 5px auto 15px;
+  line-height: 24px;
+}
+
+.number {
+  flex-grow: 1;
+  height: 28px;
+  border-top: 2px solid #e2e2e2;
+  border-bottom: 2px solid #e2e2e2;
+  text-align: center;
+  font-weight: 500;
 }
 
 .btn {
-  size: 20px;
+  flex: 0 0 28px;
+  height: 28px;
+  max-width: 28px;
+  line-height: 24px;
+  padding: 0;
+  background: transparent;
+  color: #757575;
+  border-width: 2px;
+  border-radius: 2px;
 }

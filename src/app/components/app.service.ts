@@ -3,29 +3,12 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { find, findIndex, reject } from 'lodash';
 import { Product } from './app.interface';
+import { CATALOG } from './app.catalog'
 
 @Injectable()
 export class AppService {
 
-    public products = [{
-        id: 1,
-        name: 'Название товара 1',
-        description: 'Краткое описание товара со всеми его прелестями',
-        img: 'assets/img/item-1.jpg',
-        amount: 1,
-        total: 8,
-        price: 210,
-    }, {
-        id: 2,
-        name: 'Название товара 2',
-        description: 'Краткое описание товара со всеми его прелестями',
-        img: 'assets/img/item-2.jpg',
-        amount: 1,
-        total: 8,
-        price: 210,
-    }] as Product[];
-
-    public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(this.products);
+    public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(CATALOG);
     public basket$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([] as Product[]);
     public total$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
@@ -48,33 +31,39 @@ export class AppService {
         if (model == 'products') {
             const index = findIndex(basket, {id: productId});
             const product = find(products, {id: productId});
+            const basketProduct = basket[index];
 
-            if (basket[index]) {
-                basket[index].amount += product.amount;
+            if (basketProduct) {
+                if (basketProduct.amount > product.total) {
+                    basketProduct.amount = product.total;
+                } else {
+                    basketProduct.amount += product.amount;
+                }
 
-                if (basket[index].amount > product.total) basket[index].amount = product.total;
-            } else {
-                basket.push(product);
+                this.basket$.next(basket);
+
+                this.calcTotal();
             }
         } else {
-            basket = reject(basket, {id: productId});
+            // basket = reject(basket, {id: productId});
+            //
+            // this.basket$.next(basket);
         }
 
         this.products$.next(products);
-        this.basket$.next(basket);
 
-        this.calcTotal(basket);
+        this.calcTotal();
     }
 
-    calcTotal(basket: Product[]): void {
+    calcTotal = () => setTimeout(() => {
         let total: number = 0;
 
-        basket.map((product: Product) => {
+        this.basket$.value.map((product: Product) => {
             total += product.amount * product.price
         });
 
         this.total$.next(total);
-    }
+    }, 0);
 
     changeProductAmount(id: number, increase: boolean): void {
         const products = this.calcProductsAmount(id, increase, this.products$.value);
@@ -87,7 +76,15 @@ export class AppService {
 
         this.basket$.next(basket);
 
-        this.calcTotal(basket);
+        this.calcTotal();
+    }
+
+    deleteProduct(id: number): void {
+        const basket = reject(this.basket$.value, {id: id});
+
+        this.basket$.next(basket);
+
+        this.calcTotal();
     }
 
     calcProductsAmount(id: number, increase: boolean, products: Product[]): Product[] {

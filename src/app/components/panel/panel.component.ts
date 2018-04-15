@@ -10,4 +10,7 @@ export class PanelComponent {
     @Input()
     public header: string;
 
+    @Input()
+    public total: number;
+
 }
